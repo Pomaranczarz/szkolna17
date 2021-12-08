@@ -3,7 +3,7 @@ def get_decimal_value(c):
 
 
 def get_character_from_value(i):
-    return chr( i + ord('0') ) if i >= 0 and i <= 9 else chr( i + 'A' - 10 )
+    return chr( i + ord('0') ) if i >= 0 and i <= 9 else chr( i + ord('A') - 10 )
     
 
 def convert_to_decimal(value, base):
