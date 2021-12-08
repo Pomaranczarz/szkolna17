@@ -1,5 +1,5 @@
 def get_decimal_value(c):
-    return ord(c) - ord('0') if ord(c) >= ord('0') and ord(c) <= ord('9') else ord(c) - ord('A') + 10
+    return ord(c) - ord('0') if c.isdigit() else ord(c) - ord('A') + 10
 
 
 def get_character_from_value(i):
