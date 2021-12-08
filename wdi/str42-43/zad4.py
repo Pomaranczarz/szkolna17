@@ -1,8 +1,3 @@
-# Pobierać  od  użytkownika  liczby  do  momentu  wpisania  liczby  zero,  bądź  pobrania 
-# dziesięciu  wartości.  Po  zakończonym  wczytywaniu  ustawić  liczby  tak,  aby  liczby 
-# parzyste znalazły się po jednej stronie tablicy, a nieparzyste po drugiej. Wyświetlić 
-# zawartość tablicy. 
-
 def main():
     try:
         count = 1
