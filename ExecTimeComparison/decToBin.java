@@ -1,5 +1,5 @@
 public class test_java {
-	// Written by LloydPL
+z
 	public static void main(String[] args) {
 		System.out.println("pog test");
 		double measureSum = 0;
