@@ -1,13 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
-Napisz funkcje, które dla dwuwymiarowej kwadratowej tablicy liczb rzeczywistych o rozmiarze N x N pozwolą na:
-    - obliczenie iloczynu elementów na głównej przekątnej,
-    - obliczenie sumy elementów nad główną przekątną.
-Napisz program, w którym wczytane są dane, wywołane funkcje, wyświetlone wyniki.
-*/
-
 void print(int** arr, unsigned size);
 int diagonalProduct(int** arr, unsigned size);
 int aboveDiagonalSum(int** arr, unsigned size);
@@ -31,6 +24,8 @@ int main(void) {
 
     printf("Iloczyn przekatnej: %d\n", diagonalProduct(tab, N));
     printf("Suma ponad przekatna: %d\n", aboveDiagonalSum(tab, N));
+
+    return 0;
 }
 
 void print(int** arr, unsigned size) {
