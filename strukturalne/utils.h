@@ -43,6 +43,26 @@ void PrintArrayC(char* array, unsigned size, const char* sep) {
     printf("]\n");
 }
 
+/// Reverse given array. Resulting array needs to be freed.
+float* ReverseF(float* begin, float* end) {
+    float* reversed = (float*)malloc((end - begin) * sizeof(float));
+
+    for (int i = end - begin - 1, j = 0; i >= 0; i--, j++)
+        reversed[j] = arr[i];
+
+    return reversed;
+}
+
+/// Reverse given array. Resulting array needs to be freed.
+int* ReverseI(int* begin, int* end) {
+    int* reversed = (int*)malloc((end - begin) * sizeof(int));
+
+    for (int i = end - begin - 1, j = 0; i >= 0; i--, j++)
+        reversed[j] = arr[i];
+
+    return reversed;
+}
+
 /// Get random integer in range.
 int GetRandomI(int begin, int end) {
     return rand() % (end - begin) + begin;
