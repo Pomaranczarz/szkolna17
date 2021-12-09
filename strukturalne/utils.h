@@ -48,7 +48,7 @@ float* ReverseF(float* begin, float* end) {
     float* reversed = (float*)malloc((end - begin) * sizeof(float));
 
     for (int i = end - begin - 1, j = 0; i >= 0; i--, j++)
-        reversed[j] = arr[i];
+        reversed[j] = begin[i];
 
     return reversed;
 }
@@ -58,12 +58,12 @@ int* ReverseI(int* begin, int* end) {
     int* reversed = (int*)malloc((end - begin) * sizeof(int));
 
     for (int i = end - begin - 1, j = 0; i >= 0; i--, j++)
-        reversed[j] = arr[i];
+        reversed[j] = begin[i];
 
     return reversed;
 }
 
-/// Get random integer in range.
+/// Get random integer in range. srand() needs to be called for correct performance.
 int GetRandomI(int begin, int end) {
     return rand() % (end - begin) + begin;
 }

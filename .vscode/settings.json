@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "chrono": "c",
+        "format": "c",
+        "forward_list": "c",
+        "initializer_list": "c",
+        "vector": "c",
+        "xiosbase": "c",
+        "xstring": "c",
+        "xtree": "c",
+        "xutility": "c"
+    }
+}
