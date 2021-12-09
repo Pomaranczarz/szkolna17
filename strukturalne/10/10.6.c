@@ -5,12 +5,6 @@
 
 #define ARRAY_SIZE 10
 
-/*
-    Napisz funkcję typu logicznego, która dla tablicy z ocenami egzaminu n studentów sprawdzi, 
-    czy wszyscy studenci zdali. 
-    Przetestuj funkcję w main().
-*/
-
 bool check_all(int* begin, int* end, bool(*predicate)(int));
 void FillRandom(int* arr, unsigned len); 
 void PrintArray(const char* arr_name, int* arr, unsigned len);
@@ -18,7 +12,7 @@ bool HasPassed(int mark);
 
 int main(void) {
     srand(time(NULL));
-    
+
     int oceny[ARRAY_SIZE];
     FillRandom(oceny, ARRAY_SIZE);
 
