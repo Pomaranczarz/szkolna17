@@ -1,26 +1,20 @@
 #include <stdio.h>
 #include <math.h>
 
-struct Point2D {
-    float x;
-    float y;
-};
-
-float getDistanceBetweenPoints(struct Point2D p1, struct Point2D p2);
-unsigned getPointQuadrant(struct Point2D p);
+float getDistanceBetweenPoints(float x1, float  y1, float x2, float y2);
+unsigned getPointQuadrant(float x, float  y);
 
 int main(void) {
-    struct Point2D userPoint;
-    const struct Point2D origin = {
-        .x = 0,
-        .y = 0
-    };
+    float x, y;
 
     printf("Podaj kolejno x i y: \n");
-    scanf("%f %f", &userPoint.x, &userPoint.y);
+    scanf("%f %f", &x, &y);
 
-    printf("\nOdleglosc punktu od (0, 0): %f\n", getDistanceBetweenPoints(userPoint, origin));
-    unsigned quadrant = getPointQuadrant(userPoint);
+    float dystans = getDistanceBetweenPoints(x, y, 0.0, 0.0);
+
+    printf("\nOdleglosc punktu od (0, 0): %f %p\n", dystans, &dystans);
+    unsigned quadrant = getPointQuadrant(x, y);
+    printf("\nAdres numeru cwiartki: %p", &quadrant);
     if (quadrant == 5)
         printf("Punkt lezy na jednej z osi\n");
     else
@@ -29,21 +23,24 @@ int main(void) {
     return 0;
 }
 
-float getDistanceBetweenPoints(struct Point2D p1, struct Point2D p2) {
-    return sqrt(powf(p2.x - p1.x, 2) + powf(p2.y - p1.y, 2));
+float getDistanceBetweenPoints(float x1, float  y1, float x2, float y2) {
+    float wynik = sqrt(powf(x2 - x1, 2) + powf(y2 - y1, 2));
+    printf("Adres wyniku w funkcji: %p", &wynik);
+
+    return wynik;
 }
 
-unsigned getPointQuadrant(struct Point2D p) {
-    if (p.x == 0 || p.y == 0)
+unsigned getPointQuadrant(float x, float  y) {
+    if (x == 0 || y == 0)
         return 5; // lezy na jednej z osi
     else {
-        if (p.x > 0) {
-            if (p.y > 0)
+        if (x > 0) {
+            if (y > 0)
                 return 1;
             else
                 return 4;
         } else {
-            if (p.y > 0)
+            if (y > 0)
                 return 2;
             else
                 return 3;
