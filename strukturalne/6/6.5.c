@@ -9,7 +9,7 @@ int main() {
         scanf("%i", &temp);
         if (temp > max)
             max = temp;
-    } while (temp != 0);
+    } while (temp != -1);
 
     printf("Najwieksza z wprowadzonych liczb: %i", max);
  
