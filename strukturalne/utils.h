@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include <memory.h>
 
 /// Print array of integers.
 void PrintArrayI(int* array, unsigned size, const char* sep) {
@@ -192,6 +193,34 @@ float AverageF(float* begin, float* end) {
         sum += *begin;
 
     return sum / (end - begin);
+}
+
+/// Filter elements in [begin; end) range. Returns pointer to new end.
+int* FilterInPlaceI(int* begin, int* end, bool(*predicate)(int)) {
+    int* original_begin = begin;
+    for (int* it = begin; it != end; it++)
+        if (predicate(*it)) {
+            *begin = *it;
+            begin++;
+        }
+
+    realloc(original_begin, begin - original_begin);
+
+    return begin;
+}
+
+/// Filter elements in [begin; end) range. Returns pointer to new end.
+float* FilterInPlaceF(float* begin, float* end, bool(*predicate)(float)) {
+    float* original_begin = begin;
+    for (float* it = begin; it != end; it++)
+        if (predicate(*it)) {
+            *begin = *it;
+            begin++;
+        }
+
+    realloc(original_begin, begin - original_begin);
+
+    return begin;
 }
 
 /// Get max element in [begin; end) range.
