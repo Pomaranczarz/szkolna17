@@ -6,6 +6,18 @@ class ratio:
         self.numerator = numerator
         self.denominator = denominator
 
+
+    def from_int(number):
+        if not isinstance(number, int):
+            raise ValueError("Numerator and denominator have to be int")
+        
+        return ratio(number, 1)
+
+
+    def from_str(s):
+        number = int(s)
+        return ratio.from_int(number)
+
     
     def gcd(a, b):
         while b != 0:
@@ -70,9 +82,3 @@ class ratio:
 
     def __str__(self):
         return f'( { self.numerator } / { self.denominator } )'
-
-
-r1 = ratio(1, 4)
-r2 = ratio(1, 4)
-
-print((r1 + 1).simplify())
