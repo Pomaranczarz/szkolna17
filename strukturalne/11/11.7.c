@@ -21,5 +21,7 @@ int main(void) {
         if (participantTimes[i] == max)
             printf("%d\n", i + 1);
 
+    free(participantTimes);
+
     return 0;
 }

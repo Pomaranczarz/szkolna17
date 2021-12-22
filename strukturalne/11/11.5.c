@@ -33,6 +33,8 @@ int main(void) {
 
     printf("\n");
     
+    free(nowaTab);
+
     return 0;
 }
 

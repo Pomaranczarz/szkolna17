@@ -23,6 +23,9 @@ int main(void) {
     printf("\nUjemne: \n");
     PrintOneDimensional(negative, negSize);
 
+    free(negative);
+    free(positive);
+
     return 0;
 }
 

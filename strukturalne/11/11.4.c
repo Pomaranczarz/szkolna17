@@ -21,5 +21,12 @@ int main(void) {
 
     DeleteTwoDimensional(twoDim, 3);
 
+    free(oneDim);
+
+    for (int i = 0; i < 3; i++)
+        free(twoDim[i]);
+
+    free(twoDim);
+
     return 0;
 }
