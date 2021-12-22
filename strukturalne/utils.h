@@ -8,6 +8,20 @@
 #include <math.h>
 #include <memory.h>
 
+/// Swap two values.
+void swapI(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+/// Swap two values.
+void swapF(float* a, float* b) {
+    float temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 /// Print array of integers.
 void PrintArrayI(int* array, unsigned size, const char* sep) {
     printf("[ ");
@@ -44,24 +58,16 @@ void PrintArrayC(char* array, unsigned size, const char* sep) {
     printf("]\n");
 }
 
-/// Reverse given array. Resulting array needs to be freed.
-float* ReverseF(float* begin, float* end) {
-    float* reversed = (float*)malloc((end - begin) * sizeof(float));
-
-    for (int i = end - begin - 1, j = 0; i >= 0; i--, j++)
-        reversed[j] = begin[i];
-
-    return reversed;
+/// Reverse given array. 
+void ReverseF(float* begin, float* end) {
+    for (int i = 0, j = (end - begin) - 1; i < (end - begin) / 2; i++, j--)
+        swapF(&begin[i], &begin[j]);
 }
 
-/// Reverse given array. Resulting array needs to be freed.
-int* ReverseI(int* begin, int* end) {
-    int* reversed = (int*)malloc((end - begin) * sizeof(int));
-
-    for (int i = end - begin - 1, j = 0; i >= 0; i--, j++)
-        reversed[j] = begin[i];
-
-    return reversed;
+/// Reverse given array. 
+void ReverseI(int* begin, int* end) {
+    for (int i = 0, j = (end - begin) - 1; i < (end - begin) / 2; i++, j--)
+        swapI(&begin[i], &begin[j]);
 }
 
 /// Get random integer in range. srand() needs to be called for correct performance.
@@ -71,75 +77,75 @@ int GetRandomI(int begin, int end) {
 
 /// Get sum of elements in [begin; end) range with starting init value.
 float AccumulateF(float* begin, float* end, float init) {
-    float result = init;
-    while (begin != end) {
-        result += *begin;
-        begin++;
-    }
+    for (float* it = begin; it != end; it++)
+        init += *it;
 
-    return result;
+    return init;
 }
 
 /// Get sum of elements in [begin; end) range with starting init value.
 int AccumulateI(int* begin, int* end, int init) {
-    int result = init;
-    while (begin != end) {
-        result += *begin;
-        begin++;
-    }
+    for (int* it = begin; it != end; it++)
+        init += *it;
 
-    return result;
+    return init;
 }
 
 /// Fill range [begin; end) with increasing sequence starting from init.
 void Iota(int* begin, int* end, int init) {
-    for (int i = init; begin != end; begin++, i++)
-        *begin = i;
+    for (int* it = begin; it != end; it++)
+        *it = init++;
 }
 
 /// Check if all elements in range [begin; end) satisfy given predicate.
 bool AreAllI(int* begin, int* end, bool(*predicate)(int)) {
-    while (begin != end) {
-        if (!predicate(*begin))
+    for (int* it = begin; it != end; it++)
+        if (!predicate(*it))
             return false;
-
-        begin++;
-    }
 
     return true;
 }
 
 /// Check if all elements in range [begin; end) satisfy given predicate.
 bool AreAllF(float* begin, float* end, bool(*predicate)(float)) {
-    while (begin != end) {
-        if (!predicate(*begin))
+    for (float* it = begin; it != end; it++)
+        if (!predicate(*it))
             return false;
-
-        begin++;
-    }
 
     return true;
 }
 
 /// Apply transforming function f to every element in [begin; end) range.
 void TransformI(int* begin, int* end, void(*f)(int*)) {
-    while (begin != end) {
-        f(begin++);
-    }
+    for (int* it = begin; it != end; it++)
+        f(it);
 }
 
 /// Apply transforming function f to every element in [begin; end) range.
 void TransformF(float* begin, float* end, void(*f)(float*)) {
-    while (begin != end) {
-        f(begin++);
-    }
+    for (float* it = begin; it != end; it++)
+        f(it);
+}
+
+/// Apply transforming funtion f to every element in range [begin; end) which satisfies predicate.
+void TransformIfI(int* begin, int* end, bool(*predicate)(int), void(*f)(int*)) {
+     for (int* it = begin; it != end; it++)
+        if (predicate(*it))
+            f(it);
+}
+
+/// Apply transforming funtion f to every element in range [begin; end) which satisfies predicate.
+void TransformIfF(float* begin, float* end, bool(*predicate)(float), void(*f)(float*)) {
+    for (float* it = begin; it != end; it++)
+        if (predicate(*it))
+            f(it);
 }
 
 /// Count elements satisfying given predicate.
 unsigned CountIfI(int* begin, int* end, bool(*predicate)(int)) {
     unsigned count = 0;
-    for (; begin != end; begin++)
-        if (predicate(*begin)) 
+    for (int* it = begin; it != end; it++)
+        if (predicate(*it)) 
             count++;
 
     return count;
@@ -148,8 +154,8 @@ unsigned CountIfI(int* begin, int* end, bool(*predicate)(int)) {
 /// Count elements satisfying given predicate.
 unsigned CountIfF(float* begin, float* end, bool(*predicate)(float)) {
     unsigned count = 0;
-    for (; begin != end; begin++)
-        if (predicate(*begin)) 
+    for (float* it = begin; it != end; it++)
+        if (predicate(*it)) 
             count++;
 
     return count;
@@ -158,8 +164,8 @@ unsigned CountIfF(float* begin, float* end, bool(*predicate)(float)) {
 /// Get numbers of elements with given value.
 unsigned CountI(int* begin, int* end, int value) {
     unsigned count = 0;
-    for (; begin != end; begin++)
-        if (*begin == value)
+    for (int* it = begin; it != end; it++)
+        if (*it == value)
             count++;
 
     return count;
@@ -180,8 +186,8 @@ void ReadStdinToArrayF(float* array, unsigned size) {
 /// Get average of elements in range [begin; end).
 float AverageI(int* begin, int* end) {
     int sum = 0;
-    for (; begin != end; begin++)
-        sum += *begin;
+    for (int* it = begin; it != end; it++)
+        sum += *it;
 
     return (float)sum / (end - begin);
 }
@@ -189,38 +195,10 @@ float AverageI(int* begin, int* end) {
 /// Get average of elements in range [begin; end).
 float AverageF(float* begin, float* end) {
     float sum = 0.0;
-    for (; begin != end; begin++)
-        sum += *begin;
+    for (float* it = begin; it != end; it++)
+        sum += *it;
 
     return sum / (end - begin);
-}
-
-/// Filter elements in [begin; end) range. Returns pointer to new end.
-int* FilterInPlaceI(int* begin, int* end, bool(*predicate)(int)) {
-    int* original_begin = begin;
-    for (int* it = begin; it != end; it++)
-        if (predicate(*it)) {
-            *begin = *it;
-            begin++;
-        }
-
-    realloc(original_begin, begin - original_begin);
-
-    return begin;
-}
-
-/// Filter elements in [begin; end) range. Returns pointer to new end.
-float* FilterInPlaceF(float* begin, float* end, bool(*predicate)(float)) {
-    float* original_begin = begin;
-    for (float* it = begin; it != end; it++)
-        if (predicate(*it)) {
-            *begin = *it;
-            begin++;
-        }
-
-    realloc(original_begin, begin - original_begin);
-
-    return begin;
 }
 
 /// Get max element in [begin; end) range.
@@ -261,20 +239,6 @@ float* MinElementF(float* begin, float* end) {
             min = begin;
 
     return min;
-}
-
-/// Swap two values.
-void swapI(int* a, int* b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-/// Swap two values.
-void swapF(float* a, float* b) {
-    float temp = *a;
-    *a = *b;
-    *b = temp;
 }
 
 /// Check if number is prime.
