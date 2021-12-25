@@ -10,5 +10,6 @@
         "xtree": "c",
         "xutility": "c",
         "cstdlib": "c"
-    }
+    },
+    "python.formatting.provider": "yapf"
 }
