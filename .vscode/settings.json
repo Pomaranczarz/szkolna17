@@ -9,7 +9,9 @@
         "xstring": "c",
         "xtree": "c",
         "xutility": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "sstream": "c"
     },
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "C_Cpp.errorSquiggles": "Disabled"
 }
