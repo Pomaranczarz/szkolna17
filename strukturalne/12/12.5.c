@@ -3,7 +3,24 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-static void AppendToStringAndEnsureLength(char* str, unsigned* str_len, unsigned* current_capacity, char to_append) {
+void AppendToStringAndEnsureLength(char* str, unsigned* str_len, unsigned* current_capacity, char to_append);
+unsigned Concatenate(char** result, unsigned num_of_args, ...);
+
+int main(void) {
+    char* result = NULL;
+    Concatenate(&result, 4, "Siema", "to", "ja", "Guadelupe");
+    printf("%s", result);
+    return 0;
+}
+
+unsigned GetLen(const char* str) {
+    unsigned len = 0;
+    for (; *str != '\0'; str++, len++);
+
+    return len;
+}
+
+void AppendToStringAndEnsureLength(char* str, unsigned* str_len, unsigned* current_capacity, char to_append) {
     if (*str_len + 1 >= *current_capacity) {
         *current_capacity = *current_capacity * 2;
         str = realloc(str, *current_capacity);
@@ -12,7 +29,7 @@ static void AppendToStringAndEnsureLength(char* str, unsigned* str_len, unsigned
     str[(*str_len)++] = to_append;
 }
 
-static unsigned Concatenate(char** result, unsigned num_of_args, ...) {
+unsigned Concatenate(char** result, unsigned num_of_args, ...) {
     if (*result != NULL)
         free(*result);
 
@@ -32,18 +49,4 @@ static unsigned Concatenate(char** result, unsigned num_of_args, ...) {
     }
 
     return resultLen;
-}
-
-int main(void) {
-    char* result = NULL;
-    Concatenate(&result, 4, "Siema", "to", "ja", "Guadelupe");
-    printf("%s", result);
-    return 0;
-}
-
-unsigned GetLen(const char* str) {
-    unsigned len = 0;
-    for (; *str != '\0'; str++, len++);
-
-    return len;
 }
