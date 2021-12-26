@@ -9,21 +9,21 @@
 #include <memory.h>
 
 /// Swap two values.
-void swapI(int* a, int* b) {
+static void swapI(int* a, int* b) {
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
 /// Swap two values.
-void swapF(float* a, float* b) {
+static void swapF(float* a, float* b) {
     float temp = *a;
     *a = *b;
     *b = temp;
 }
 
 /// Print array of integers.
-void PrintArrayI(int* array, unsigned size, const char* sep) {
+static void PrintArrayI(int* array, unsigned size, const char* sep) {
     printf("[ ");
     for (int i = 0; i < size; i++) {
         printf("%d", array[i]);
@@ -35,7 +35,7 @@ void PrintArrayI(int* array, unsigned size, const char* sep) {
 }
 
 /// Print array of floats.
-void PrintArrayF(float* array, unsigned size, const char* sep) {
+static void PrintArrayF(float* array, unsigned size, const char* sep) {
     printf("[ ");
     for (int i = 0; i < size; i++) {
         printf("%f", array[i]);
@@ -47,7 +47,7 @@ void PrintArrayF(float* array, unsigned size, const char* sep) {
 }
 
 /// Print char array.
-void PrintArrayC(char* array, unsigned size, const char* sep) {
+static void PrintArrayC(char* array, unsigned size, const char* sep) {
     printf("[ ");
     for (int i = 0; i < size; i++) {
         printf("%c", array[i]);
@@ -58,25 +58,58 @@ void PrintArrayC(char* array, unsigned size, const char* sep) {
     printf("]\n");
 }
 
+/// Append single character to string with updating length and capacity.
+static void AppendToStringAndEnsureLength(char* str, unsigned* str_len, unsigned* current_capacity, char to_append) {
+    if (*str_len + 1 >= *current_capacity) {
+        *current_capacity = *current_capacity * 2;
+        str = realloc(str, *current_capacity);
+    }
+
+    str[(*str_len)++] = to_append;
+}
+
+/// Concatenate num_of_args strings into result. result length is returned.
+static unsigned Concatenate(char** result, unsigned num_of_args, ...) {
+    if (*result != NULL)
+        free(*result);
+
+    *result = (char*)malloc(20 * sizeof(char));
+    unsigned resultCapacity = 20;
+    unsigned resultLen = 0;
+
+    va_list args;
+    va_start(args, num_of_args);
+
+    for (int i = 0; i < num_of_args; i++) {
+        const char* current_str = va_arg(args, const char*);
+        for (int current_str_index = 0; current_str_index < strlen(current_str); current_str_index++)
+            AppendToStringAndEnsureLength(*result, &resultLen, &resultCapacity, current_str[current_str_index]);
+
+        AppendToStringAndEnsureLength(*result, &resultLen, &resultCapacity, ' ');
+    }
+
+    return resultLen;
+}
+
 /// Reverse given array. 
-void ReverseF(float* begin, float* end) {
+static void ReverseF(float* begin, float* end) {
     for (int i = 0, j = (end - begin) - 1; i < (end - begin) / 2; i++, j--)
         swapF(&begin[i], &begin[j]);
 }
 
 /// Reverse given array. 
-void ReverseI(int* begin, int* end) {
+static void ReverseI(int* begin, int* end) {
     for (int i = 0, j = (end - begin) - 1; i < (end - begin) / 2; i++, j--)
         swapI(&begin[i], &begin[j]);
 }
 
 /// Get random integer in range. srand() needs to be called for correct performance.
-int GetRandomI(int begin, int end) {
+static int GetRandomI(int begin, int end) {
     return rand() % (end - begin) + begin;
 }
 
 /// Get sum of elements in [begin; end) range with starting init value.
-float AccumulateF(float* begin, float* end, float init) {
+static float AccumulateF(float* begin, float* end, float init) {
     for (float* it = begin; it != end; it++)
         init += *it;
 
@@ -84,7 +117,7 @@ float AccumulateF(float* begin, float* end, float init) {
 }
 
 /// Get sum of elements in [begin; end) range with starting init value.
-int AccumulateI(int* begin, int* end, int init) {
+static int AccumulateI(int* begin, int* end, int init) {
     for (int* it = begin; it != end; it++)
         init += *it;
 
@@ -92,13 +125,13 @@ int AccumulateI(int* begin, int* end, int init) {
 }
 
 /// Fill range [begin; end) with increasing sequence starting from init.
-void Iota(int* begin, int* end, int init) {
+static void Iota(int* begin, int* end, int init) {
     for (int* it = begin; it != end; it++)
         *it = init++;
 }
 
 /// Check if all elements in range [begin; end) satisfy given predicate.
-bool AreAllI(int* begin, int* end, bool(*predicate)(int)) {
+static bool AreAllI(int* begin, int* end, bool(*predicate)(int)) {
     for (int* it = begin; it != end; it++)
         if (!predicate(*it))
             return false;
@@ -107,7 +140,7 @@ bool AreAllI(int* begin, int* end, bool(*predicate)(int)) {
 }
 
 /// Check if all elements in range [begin; end) satisfy given predicate.
-bool AreAllF(float* begin, float* end, bool(*predicate)(float)) {
+static bool AreAllF(float* begin, float* end, bool(*predicate)(float)) {
     for (float* it = begin; it != end; it++)
         if (!predicate(*it))
             return false;
@@ -122,27 +155,27 @@ void TransformI(int* begin, int* end, void(*f)(int*)) {
 }
 
 /// Apply transforming function f to every element in [begin; end) range.
-void TransformF(float* begin, float* end, void(*f)(float*)) {
+static void TransformF(float* begin, float* end, void(*f)(float*)) {
     for (float* it = begin; it != end; it++)
         f(it);
 }
 
 /// Apply transforming funtion f to every element in range [begin; end) which satisfies predicate.
-void TransformIfI(int* begin, int* end, bool(*predicate)(int), void(*f)(int*)) {
+static void TransformIfI(int* begin, int* end, bool(*predicate)(int), void(*f)(int*)) {
      for (int* it = begin; it != end; it++)
         if (predicate(*it))
             f(it);
 }
 
 /// Apply transforming funtion f to every element in range [begin; end) which satisfies predicate.
-void TransformIfF(float* begin, float* end, bool(*predicate)(float), void(*f)(float*)) {
+static void TransformIfF(float* begin, float* end, bool(*predicate)(float), void(*f)(float*)) {
     for (float* it = begin; it != end; it++)
         if (predicate(*it))
             f(it);
 }
 
 /// Count elements satisfying given predicate.
-unsigned CountIfI(int* begin, int* end, bool(*predicate)(int)) {
+static unsigned CountIfI(int* begin, int* end, bool(*predicate)(int)) {
     unsigned count = 0;
     for (int* it = begin; it != end; it++)
         if (predicate(*it)) 
@@ -152,7 +185,7 @@ unsigned CountIfI(int* begin, int* end, bool(*predicate)(int)) {
 }
 
 /// Count elements satisfying given predicate.
-unsigned CountIfF(float* begin, float* end, bool(*predicate)(float)) {
+static unsigned CountIfF(float* begin, float* end, bool(*predicate)(float)) {
     unsigned count = 0;
     for (float* it = begin; it != end; it++)
         if (predicate(*it)) 
@@ -162,7 +195,7 @@ unsigned CountIfF(float* begin, float* end, bool(*predicate)(float)) {
 }
 
 /// Get numbers of elements with given value.
-unsigned CountI(int* begin, int* end, int value) {
+static unsigned CountI(int* begin, int* end, int value) {
     unsigned count = 0;
     for (int* it = begin; it != end; it++)
         if (*it == value)
@@ -172,7 +205,7 @@ unsigned CountI(int* begin, int* end, int value) {
 }
 
 /// Read from stdin to array.
-void ReadStdinToArrayI(int* array, unsigned size) {
+static void ReadStdinToArrayI(int* array, unsigned size) {
     for (int i = 0; i < size; i++)
         scanf("%d", &array[i]);
 }
@@ -184,7 +217,7 @@ void ReadStdinToArrayF(float* array, unsigned size) {
 }
 
 /// Get average of elements in range [begin; end).
-float AverageI(int* begin, int* end) {
+static float AverageI(int* begin, int* end) {
     int sum = 0;
     for (int* it = begin; it != end; it++)
         sum += *it;
@@ -193,7 +226,7 @@ float AverageI(int* begin, int* end) {
 }
 
 /// Get average of elements in range [begin; end).
-float AverageF(float* begin, float* end) {
+static float AverageF(float* begin, float* end) {
     float sum = 0.0;
     for (float* it = begin; it != end; it++)
         sum += *it;
@@ -202,7 +235,7 @@ float AverageF(float* begin, float* end) {
 }
 
 /// Get max element in [begin; end) range.
-int* MaxElementI(int* begin, int* end) {
+static int* MaxElementI(int* begin, int* end) {
     int* max = begin++;
     for (; begin != end; begin++)
         if (*begin > *max)
@@ -212,7 +245,7 @@ int* MaxElementI(int* begin, int* end) {
 }
 
 /// Get min element in [begin; end) range.
-int* MinElementI(int* begin, int* end) {
+static int* MinElementI(int* begin, int* end) {
     int* min = begin++;
     for (; begin != end; begin++)
         if (*begin < *min)
@@ -222,7 +255,7 @@ int* MinElementI(int* begin, int* end) {
 }
 
 /// Get max element in [begin; end) range.
-float* MaxElementF(float* begin, float* end) {
+static float* MaxElementF(float* begin, float* end) {
     float* max = begin++;
     for (; begin != end; begin++)
         if (*begin > *max)
@@ -232,7 +265,7 @@ float* MaxElementF(float* begin, float* end) {
 }
 
 /// Get min element in [begin; end) range.
-float* MinElementF(float* begin, float* end) {
+static float* MinElementF(float* begin, float* end) {
     float* min = begin++;
     for (; begin != end; begin++)
         if (*begin < *min)
@@ -242,7 +275,7 @@ float* MinElementF(float* begin, float* end) {
 }
 
 /// Check if number is prime.
-bool IsPrime(int number) {
+static bool IsPrime(int number) {
     int i;
     for (i = 2; i <= sqrt(number); i++)
         if (number % i == 0)
@@ -251,7 +284,7 @@ bool IsPrime(int number) {
     return true;
 }
 
-void BubblesortI(int* begin, int* end) {
+static void BubblesortI(int* begin, int* end) {
     bool swap_occured;
     int size = end - begin;
 
@@ -270,7 +303,7 @@ void BubblesortI(int* begin, int* end) {
     }
 }
 
-void BubblesortF(float* begin, float* end) {
+static void BubblesortF(float* begin, float* end) {
     bool swap_occured;
     int size = end - begin;
 
@@ -299,11 +332,11 @@ struct Point2Di {
     int y;
 };
 
-float GetDistanceBetweenPointsF(struct Point2Df p1, struct Point2Df p2) {
+static float GetDistanceBetweenPointsF(struct Point2Df p1, struct Point2Df p2) {
     return sqrtf(powf(p2.x - p1.x, 2) + powf(p2.y - p1.y, 2));
 }
 
-float GetDistanceBetweenPointsI(struct Point2Di p1, struct Point2Di p2) {
+static float GetDistanceBetweenPointsI(struct Point2Di p1, struct Point2Di p2) {
     return sqrtf(powf(p2.x - p1.x, 2) + powf(p2.y - p1.y, 2));
 }
 
