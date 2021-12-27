@@ -110,6 +110,7 @@ static void ReverseI(int* begin, int* end) {
         swapI(&begin[i], &begin[j]);
 }
 
+/// Reverse given array. 
 static void ReverseC(char* begin, char* end) {
     for (int i = 0, j = (end - begin) - 1; i < (end - begin) / 2; i++, j--)
         swapC(&begin[i], &begin[j]);
