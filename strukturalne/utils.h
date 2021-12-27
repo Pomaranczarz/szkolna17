@@ -22,6 +22,13 @@ static void swapF(float* a, float* b) {
     *b = temp;
 }
 
+/// Swap two values.
+static void swapC(char* a, char* b) {
+    char temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 /// Print array of integers.
 static void PrintArrayI(int* array, unsigned size, const char* sep) {
     printf("[ ");
@@ -101,6 +108,11 @@ static void ReverseF(float* begin, float* end) {
 static void ReverseI(int* begin, int* end) {
     for (int i = 0, j = (end - begin) - 1; i < (end - begin) / 2; i++, j--)
         swapI(&begin[i], &begin[j]);
+}
+
+static void ReverseC(char* begin, char* end) {
+    for (int i = 0, j = (end - begin) - 1; i < (end - begin) / 2; i++, j--)
+        swapC(&begin[i], &begin[j]);
 }
 
 /// Get random integer in range. srand() needs to be called for correct performance.
