@@ -7,6 +7,9 @@
 #include <stdbool.h>
 #include <math.h>
 #include <memory.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdarg.h>
 
 /// Swap two values.
 static void swapI(int* a, int* b) {
@@ -88,14 +91,49 @@ static unsigned Concatenate(char** result, unsigned num_of_args, ...) {
     va_start(args, num_of_args);
 
     for (int i = 0; i < num_of_args; i++) {
-        const char* current_str = va_arg(args, const char*);
+        const char* current_str = va_arg(args, char*);
         for (int current_str_index = 0; current_str_index < strlen(current_str); current_str_index++)
             AppendToStringAndEnsureLength(*result, &resultLen, &resultCapacity, current_str[current_str_index]);
-
-        AppendToStringAndEnsureLength(*result, &resultLen, &resultCapacity, ' ');
     }
 
     return resultLen;
+}
+
+/// Transform all lowercase letters into uppercase.
+static void ToUpperStr(char* begin, char* end) {
+    for (char* it = begin; it != end; it++)
+        if (isalpha(*it))
+            *it = toupper(*it);
+}
+
+/// Transform all uppercase letters into lowercase.
+static void ToLowerStr(char* begin, char* end) {
+    for (char* it = begin; it != end; it++)
+        if (isalpha(*it))
+            *it = tolower(*it);
+}
+
+/// Style available in PrintFormatted function.
+enum PrintStyle { Centered, LeftAlign, RightAlign };
+
+static void PrintFormatted(const char* str, size_t line_width, enum PrintStyle style) {
+    size_t margin;
+    switch (style) {
+        case Centered:
+            margin = (line_width - strlen(str)) / 2;
+            for (int i = 0; i < margin; i++)
+                printf(" ");
+            printf("%s", str);
+            for (int i = 0; i < margin; i++)
+                printf(" ");
+            break;
+        case LeftAlign:
+            printf("%s", str);
+            break;
+        case RightAlign:
+            printf("%*s", (int)line_width, str);
+            break;
+    }
 }
 
 /// Reverse given array. 
