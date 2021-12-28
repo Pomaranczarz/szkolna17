@@ -25,6 +25,11 @@ int main(void) {
         printf("%s", words[i]);
 
 
+    for (int i = 0; i < WORDS_COUNT; i++)
+        free(words[i]);
+
+    free(words);
+
     return 0;
 }
 

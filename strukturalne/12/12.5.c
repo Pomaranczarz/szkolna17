@@ -10,6 +10,9 @@ int main(void) {
     char* result = NULL;
     Concatenate(&result, 4, "Siema", "to", "ja", "Guadelupe");
     printf("%s", result);
+
+    free(result);
+
     return 0;
 }
 
