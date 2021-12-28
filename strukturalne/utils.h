@@ -78,11 +78,8 @@ static void AppendToStringAndEnsureLength(char* str, unsigned* str_len, unsigned
     str[(*str_len)++] = to_append;
 }
 
-/// Concatenate num_of_args strings into result. result length is returned.
+/// Concatenate num_of_args strings into result. result has to be NULL. result length is returned.
 static unsigned Concatenate(char** result, unsigned num_of_args, ...) {
-    if (*result != NULL)
-        free(*result);
-
     *result = (char*)malloc(20 * sizeof(char));
     unsigned resultCapacity = 20;
     unsigned resultLen = 0;
@@ -91,14 +88,15 @@ static unsigned Concatenate(char** result, unsigned num_of_args, ...) {
     va_start(args, num_of_args);
 
     for (int i = 0; i < num_of_args; i++) {
-        const char* current_str = va_arg(args, char*);
+        const char* current_str = va_arg(args, const char*);
         for (int current_str_index = 0; current_str_index < strlen(current_str); current_str_index++)
             AppendToStringAndEnsureLength(*result, &resultLen, &resultCapacity, current_str[current_str_index]);
+
+        AppendToStringAndEnsureLength(*result, &resultLen, &resultCapacity, ' ');
     }
 
     return resultLen;
 }
-
 /// Transform all lowercase letters into uppercase.
 static void ToUpperStr(char* begin, char* end) {
     for (char* it = begin; it != end; it++)
@@ -116,6 +114,7 @@ static void ToLowerStr(char* begin, char* end) {
 /// Style available in PrintFormatted function.
 enum PrintStyle { Centered, LeftAlign, RightAlign };
 
+/// Print string with given line width and style.
 static void PrintFormatted(const char* str, size_t line_width, enum PrintStyle style) {
     size_t margin;
     switch (style) {
