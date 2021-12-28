@@ -6,7 +6,7 @@
 #define DESTINATION_MAX_LEN 30
 #define NAME_MAX_LEN 20
 #define CLEAR_BUFF fflush(stdin)
-#define PRINT_SEPARATOR "---------------------------------------------------"
+#define PRINT_SEPARATOR "---------------------------------------------------" // :)
 
 struct Prize {
     enum Type { 
