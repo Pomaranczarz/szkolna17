@@ -7,7 +7,7 @@ struct Worker {
     char name[20];
     char lastname[20];
     size_t hours_worked;
-    float bonus;
+    size_t bonus_in_percents;
 };
 
 void ReadStdinToWorker(struct Worker* worker);
@@ -35,7 +35,7 @@ int main(void) {
 
 float ComputeWorkerPayment(struct Worker* worker) {
     size_t payment_from_hours = worker->hours_worked * MONEY_PER_HOUR;
-    return worker->bonus * payment_from_hours + payment_from_hours;
+    return ((float)worker->bonus_in_percents / 100) * payment_from_hours + payment_from_hours;
 }
 
 void ReadStdinToWorker(struct Worker* worker) {
@@ -46,5 +46,5 @@ void ReadStdinToWorker(struct Worker* worker) {
     printf("Podaj liczbe godzin: \n");
     scanf("%llu", &worker->hours_worked);
     printf("Podaj %% premii: \n");
-    scanf("%f", &worker->bonus);
+    scanf("%llu", &worker->bonus_in_percents);
 }
