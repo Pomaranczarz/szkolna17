@@ -30,6 +30,8 @@ int main(void) {
             ComputeWorkerPayment(&workers[i])
         );
     
+    free(workers);
+
     return 0;
 }
 

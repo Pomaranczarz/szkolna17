@@ -59,6 +59,8 @@ int main(void) {
         CountIf(polls, polls + poll_count, LivesAtSpecialPlaceAndAge)
     );
 
+    free(polls);
+
     return 0;
 }
 

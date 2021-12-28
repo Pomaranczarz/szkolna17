@@ -32,6 +32,8 @@ int main(void) {
 
     printf("Zwyciezca: %s %s [%u]", winner->name, winner->lastname, winner->lucky_number);
 
+    free(students);
+    
     return 0;
 }
 

@@ -33,6 +33,8 @@ int main(void) {
 
     printf("Srednia wszystkich: %.2f", GetAverageMarksForStudentsInRange(students, students + num_of_students));
     
+    free(students);
+
     return 0;
 }
 

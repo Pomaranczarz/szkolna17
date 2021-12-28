@@ -43,6 +43,8 @@ int main(void) {
     printf("Cukierki ktore przekroczyly date przydatnosci: \n");
     PrintExpiredCandies(candies, candies + num_of_candy_types, CurrentDate);
 
+    free(candies);
+
     return 0;
 }
 

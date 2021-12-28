@@ -28,6 +28,8 @@ int main(void) {
 
     printf("\nW sumie do zaplaty: $%.2f\n", total_sum);
 
+    free(workers);
+
     return 0;
 }
 

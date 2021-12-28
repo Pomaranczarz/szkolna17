@@ -51,6 +51,8 @@ int main(void) {
         PrintPrize(&workers[i].prize);
     }
 
+    free(workers);
+
     return 0;
 }
 

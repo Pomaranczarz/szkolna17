@@ -69,7 +69,9 @@ int main(void) {
     printf("\nOdbywajace sie o 8: \n");
     PrintMatching(scheduleEntries, scheduleEntries + num_of_lectures, StartsAt8);
 
-    return 0;
+    free(scheduleEntries);
+
+    return 0;   
 }
 
 enum WeekDay StrToWeekDay(const char* str) {
