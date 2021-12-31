@@ -42,6 +42,12 @@ int main(void) {
 
 void SaveToTxtFile(const char* filename, struct Worker worker) {
     FILE* out = fopen(filename, "a");
+
+    if (out == NULL) {
+        perror("Nie udalo sie otworzyc pliku");
+        return;
+    }
+
     float worker_payment = ComputeWorkerPayment(worker);
 
     fprintf(out, "%.2f\n", worker_payment);
@@ -51,6 +57,12 @@ void SaveToTxtFile(const char* filename, struct Worker worker) {
 
 void SaveToBinFile(const char* filename, struct Worker worker) {
     FILE* out = fopen(filename, "ab");
+
+    if (out == NULL) {
+        perror("Nie udalo sie otworzyc pliku");
+        return;
+    }
+
     float worker_payment = ComputeWorkerPayment(worker);
 
     fwrite(&worker_payment, sizeof(float), 1, out);
@@ -66,6 +78,8 @@ void PrintFileIf(const char* filename, bool(*predicate)(float)) {
         if (predicate(value))
             printf("%.2f\n", value);
     }
+
+    fclose(in);
 }
 
 void ReadFile(const char* filename) {
