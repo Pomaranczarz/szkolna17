@@ -82,3 +82,20 @@ class ratio:
 
     def __str__(self):
         return f'( { self.numerator } / { self.denominator } )'
+
+
+while True:
+    r1 = ratio(int(input("Podaj licznik1: ")), int(input("Podaj mianownik1: ")))
+    r2 = ratio(int(input("Podaj licznik2: ")), int(input("Podaj mianownik2: ")))
+
+    operation = input("Jakie działanie chcesz wykonać? (+ - / *): ")
+    if operation == "+":
+        print(r1 + r2)
+    elif operation == "-":
+        print(r1 - r2)
+    elif operation == "/":
+        print(r1 / r2)
+    elif operation == "*":
+        print(r1 * r2)
+    else:
+        print("Niepoprawne działanie")
