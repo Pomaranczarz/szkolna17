@@ -1,13 +1,5 @@
 #include "../utils.h"
 
-/*
-    Dane: tablica liczb rzeczywistych o wymiarach N wierszy, M kolumn.
-    Napisz funkcję, która modyfikuje tablicę w następujący sposób: jeśli ponad połowa 
-    elementów w kolumnie jest=0, to należy wyzerować pozostałe elementy w tej kolumnie 
-    (powtórzyć dla wszystkich kolumn). Utworzyć tablicę B zawierającą numery zmienionych kolumn.
-    Napisz program, w którym wczytane są dane, wywołana funkcja, wyświetlone wyniki.
-*/
-
 void FillTwoDimensional(float** arr, unsigned rows, unsigned cols);
 void f(float** arr, unsigned rows, unsigned cols);
 
