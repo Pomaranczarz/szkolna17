@@ -1,0 +1,7 @@
+Liczb będących potęgami liczby 3: 18
+Liczby, które są równe sumie silni cyfr: 
+2
+145
+1
+40585
+Najdłuższy ciąg nwd > 1: 31968 - 150 - 74
