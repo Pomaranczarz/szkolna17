@@ -1,7 +1,0 @@
-Liczba trojkatow: 48306
-Liczba trojkatow prostokatnych: 28
-Liczba trojkatow ostrokatnych: 21227
-Liczba trojkatow roznobocznych: 27051
-Suma pol powierzchni trojkatow: 56297576.36982377
-Suma obwodow trojkatow: 8435112
-Średnia pól powierzchni trojkatów: 1165.4365165781428
