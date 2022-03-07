@@ -46,7 +46,7 @@ cd ~
 mkdir katalog
 ls -l
 cat > plik # Jan Kowalski\nKatarzyna Nowak
-chmod u-r,o-r,g-r plik
+chmod a-r plik
 cat katalog/plik
 
 chmod +755 katalog/plik
