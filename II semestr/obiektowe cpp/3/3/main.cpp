@@ -1,26 +1,57 @@
 #include <iostream>
 
-#include "Prostokat.hpp"
+#include "Organism.hpp"
+
+void printOrganism(const Organism& organism) {
+    std::cout << "Organism: " << '\n';
+    std::cout << "  isAlive: " << organism.isAlive() << '\n';
+    std::cout << "  isHungry: " << organism.isHungry() << '\n';
+    std::cout << "  canReproduce: " << organism.canReproduce() << '\n';
+    std::cout << "  healthCount: " << organism.getHealthCount() << '\n';
+    std::cout << "  mealCount: " << organism.getMealCount() << '\n';
+}
 
 int main() {
-    Rectangle p1;
-    Rectangle p2 { "koc", 1.4, 2.2 };
-    Rectangle p3 { "pulapka", -2, -3 };
+    Organism organism1 { 8, 3, 2 };
+    Organism organism2 = organism1;
+    Organism organism3 { organism1 };
 
-    std::cout.precision(2);
-    std::cout << p1.toString() << '\n';
-    std::cout << p2.toString() << '\n';
-    std::cout << p3.toString() << '\n';
+    std::cout << "Organism1: \n";
+    printOrganism(organism1);
+    std::cout << "Organism2: \n";
+    printOrganism(organism2);
+    std::cout << "Organism3: \n";
+    printOrganism(organism3);
 
-    if (!p3.setSize(2, 3))
-        std::cout << "Nie udało się ustawić rozmiaru prostokata.\n";
+    organism1.eat();
+    organism2.eat();
+    organism3.eat();
 
-    std::cout << std::boolalpha;
-    std::cout << p3.toString() << '\n';
+    organism3.simulationStep();
 
-    std::cout << "Uzycie metod obiektu: \n";
-    std::cout << "Nazwa: " << p1.getName() << '\n';
-    std::cout << "Poprawny: " << p1.isValid() << '\n';
-    std::cout << "Pole: " << p1.getArea() << '\n';
-    std::cout << "Obwod: " << p1.getPerimeter() << '\n';
+    std::cout << "Organism1: \n";
+    printOrganism(organism1);
+    std::cout << "Organism2: \n";
+    printOrganism(organism2);
+    std::cout << "Organism3: \n";
+    printOrganism(organism3);
+
+    Organism organism4 { 8, 3, 2 };
+
+    std::cout << "Initial state:\n";
+    printOrganism(organism4);
+
+    for (int i = 1; i < 11; ++i) {
+        organism4.simulationStep();
+
+        if (organism4.canReproduce()) {
+            organism4.reproduce();
+            std::cout << "---> Reproduced!\n";
+        }
+        else
+            organism4.eat();
+
+        std::cout << "After " << i << " simulations step:\n";
+        printOrganism(organism4);
+    }
 }

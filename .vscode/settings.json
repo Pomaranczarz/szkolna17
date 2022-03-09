@@ -55,7 +55,10 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "concepts": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "compare": "cpp",
+        "iomanip": "cpp",
+        "numbers": "cpp"
     },
     "python.formatting.provider": "yapf",
     "C_Cpp.errorSquiggles": "Disabled"
