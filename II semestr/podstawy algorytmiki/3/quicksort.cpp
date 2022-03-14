@@ -1,6 +1,8 @@
 #include <iostream>
 
-void quicksort(int* tab, int left, int right);
+enum class SortMode { Ascending, Descending };
+
+void quicksort(int* tab, int left, int right, SortMode sortMode = SortMode::Ascending);
 
 int main() {
     int tab[] { 6, 3, 4, 8, 9, 7, 1, 2, 5 };
@@ -11,25 +13,30 @@ int main() {
 
 }
 
-void quicksort(int* tab, int left, int right) {
-    if (left >= right) // nie ma co sortować
-        return;
+void quicksort(int* tab, int left, int right, SortMode sortMode) {
+    if (left < right) {
+        int pivot = tab[(left + right) / 2];
+        int i = left;
+        int j = right;
 
-    int pivot = tab[(left + right) / 2];
-    int i = left;
-    int j = right;
+        while (i <= j) {
+            if (sortMode == SortMode::Ascending) {
+                while (tab[i] < pivot) ++i;
+                while (tab[j] > pivot) --j;
+            }
+            else {
+                while (tab[i] > pivot) ++i;
+                while (tab[j] < pivot) --j;
+            }
 
-    while (i <= j) {
-        while (tab[i] < pivot) ++i;
-        while (tab[j] > pivot) --j;
-
-        if (i <= j) {
-            std::swap(tab[i], tab[j]);
-            ++i;
-            --j;
+            if (i <= j) {
+                std::swap(tab[i], tab[j]);
+                ++i;
+                --j;
+            }
         }
-    }
 
-    quicksort(tab, left, j);
-    quicksort(tab, i, right);
+        quicksort(tab, left, j, sortMode);
+        quicksort(tab, i, right, sortMode);
+    }
 }
