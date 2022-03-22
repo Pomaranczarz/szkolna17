@@ -1,6 +1,6 @@
 #include "Neighborhood.hpp"
 
-Neighborhood::Neighborhood(InhibitantType type)
+Neighborhood::Neighborhood(EntityType type)
 {
     for (auto& row : neighborhood)
         for (auto& element : row)
@@ -14,13 +14,13 @@ Position Neighborhood::getRandomPosition() {
     return static_cast<Position>(RandomGenerator::randBetween(min, max));
 }
 
-void Neighborhood::setNeighbor(Position position, InhibitantType type)
+void Neighborhood::setNeighbor(Position position, EntityType type)
 {
     if (position != NOWHERE)
         *innerElement(position) = type;
 }
 
-InhibitantType Neighborhood::getNeighborType(Position position)
+EntityType Neighborhood::getNeighborType(Position position)
 {
     if (position != NOWHERE)
         return *innerElement(position);
@@ -28,9 +28,10 @@ InhibitantType Neighborhood::getNeighborType(Position position)
         return UNKNOWN;
 }
 
-unsigned short Neighborhood::getNumberOfNeighborsOfType(InhibitantType type) const
+unsigned short Neighborhood::getNumberOfNeighborsOfType(EntityType type) const
 {
     unsigned short numberOfNeighbors = 0;
+
     for (int i = 0; i < neighborhood.size(); ++i)
         for (int j = 0; j < neighborhood[i].size(); ++j)
             if (!(i == 1 && j == 1) && neighborhood[i][j] == type)
@@ -39,7 +40,7 @@ unsigned short Neighborhood::getNumberOfNeighborsOfType(InhibitantType type) con
     return numberOfNeighbors;
 }
 
-Position Neighborhood::getPositionOfRandomNeighborOfType(InhibitantType type)
+Position Neighborhood::getPositionOfRandomNeighborOfType(EntityType type)
 {
     unsigned short numberOfNeighbors = getNumberOfNeighborsOfType(type);
     if (numberOfNeighbors == 0)

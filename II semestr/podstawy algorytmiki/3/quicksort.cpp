@@ -5,7 +5,7 @@ enum class SortMode { Ascending, Descending };
 void quicksort(int* tab, int left, int right, SortMode sortMode = SortMode::Ascending);
 
 int main() {
-    int tab[] { 6, 3, 4, 8, 9, 7, 1, 2, 5 };
+    int tab[]{ 6, 3, 4, 8, 9, 7, 1, 2, 5 };
     quicksort(tab, 0, 8);
 
     for (int i = 0; i < 9; i++)
