@@ -8,7 +8,7 @@ public:
     const EntityAction action;
     const Position where;
 
-    EntityIntent(EntityAction action = NOTHING, Position where = NOWHERE)
+    EntityIntent(EntityAction action = EntityAction::None, Position where = Position::Nowhere)
         : action{ action }
         , where{ where }
     {
