@@ -76,3 +76,19 @@ void Neighborhood::changeIndexesFromPosition(Position position, unsigned& row, u
     row = static_cast<unsigned>(r);
     column = static_cast<unsigned>(c);
 }
+
+EntityType* Neighborhood::innerElement(Position position) 
+{
+    switch (position) {
+        case Position::P: return &neighborhood[1][2];
+        case Position::PG: return &neighborhood[0][2];
+        case Position::G: return &neighborhood[0][1];
+        case Position::LG: return &neighborhood[0][0];
+        case Position::L: return &neighborhood[1][0];
+        case Position::LD: return &neighborhood[2][0];
+        case Position::D: return &neighborhood[2][1];
+        case Position::PD: return &neighborhood[2][2];
+        case Position::Nowhere: return nullptr;
+        default: nullptr
+    }
+}
