@@ -58,7 +58,11 @@
         "ranges": "cpp",
         "compare": "cpp",
         "iomanip": "cpp",
-        "numbers": "cpp"
+        "numbers": "cpp",
+        "bitset": "cpp",
+        "span": "cpp",
+        "regex": "cpp",
+        "valarray": "cpp"
     },
     "python.formatting.provider": "yapf",
     "C_Cpp.errorSquiggles": "Disabled"
