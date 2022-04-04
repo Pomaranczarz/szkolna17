@@ -5,8 +5,12 @@
 
 #define ALPHABET_SIZE ('Z' - 'A' + 1) * 2
 
+size_t power(size_t base, size_t exp) {
+    return exp == 0 ? 1 : base * power(base, exp - 1);
+}
+
 size_t make_hash(char c, int offset, size_t base, size_t pos) {
-    return ((int)c - offset) * std::pow(base, pos);
+    return ((int)c - offset) * power(base, pos);
 }
 
 void update_hash(size_t& hash, char s_prev, char s_next, int offset, size_t base, size_t pos) {
