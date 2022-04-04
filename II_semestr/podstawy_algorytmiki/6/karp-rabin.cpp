@@ -3,57 +3,64 @@
 #include <string>
 #include <cmath>
 
-#define ALPHABET_SIZE 256 - 'A' + 1
+#define ALPHABET_SIZE 256
 
-size_t make_hash(char c, size_t offset, size_t pos, size_t base) {
-    return (c - offset) * std::pow(base, pos);
+size_t make_hash(char s, int off, size_t p, size_t exp)
+{
+    return ((int)s - off) * std::pow(p, exp);
 }
 
-void update_hash(size_t& hash, char prev, char next, size_t offset, size_t pos, size_t base) {
-    hash -= make_hash(prev, offset, pos, base);
-    hash *= base;
-    hash += make_hash(next, offset, pos, base);
+void update_hash(size_t &hash, char s_prev, char s_next, int off, size_t p, size_t exp)
+{
+    hash -= make_hash(s_prev, off, p, exp);
+    hash *= p;
+    hash += ((int)s_next - off);
 }
 
-void search_karp_rabin(const std::string& pattern, const std::string& text, size_t offset) {
-    size_t pattern_hash = 0;
-    size_t text_hash = 0;
-    for (size_t i = 0; i < pattern.size(); ++i) {
-        pattern_hash += make_hash(pattern[i], offset, i, ALPHABET_SIZE);
-        text_hash += make_hash(text[i], offset, i, ALPHABET_SIZE);
+void kr(const std::string &pattern, const std::string &text, size_t p, size_t off)
+{
+    size_t hashP = 0;
+    size_t hashT = 0;
+
+    int i = 0;
+    while (i < pattern.size())
+    {
+        hashP += make_hash(pattern[i], off, p, pattern.size() - 1 - i);
+        hashT += make_hash(text[i], off, p, pattern.size() - 1 - i);
+        ++i;
     }
 
-    size_t i = pattern.size();
-    size_t j = 0;
-    while (i < text.size()) {
-        if (pattern_hash == text_hash) {
-            for (size_t k = 0; k < pattern.size(); ++k) {
-                if (pattern[k] != text[i + k])
-                    break;
+    i = pattern.size();
+    int j = 0;
 
-                if (k == pattern.size() - 1)
-                    std::cout << i << " ";
-            }
-        }
+    while (i <= text.size())
+    {
+        if (hashP == hashT && pattern == text.substr(j, pattern.size()))
+            std::cout << j << " ";
 
         if (i < text.size())
-            update_hash(text_hash, text[j], text[i], offset, i, ALPHABET_SIZE);
+            update_hash(hashT, text[j], text[i], off, p, pattern.size() - 1);
 
-        ++i;
         ++j;
+        ++i;
     }
 }
 
-int main() {
-    std::ifstream input{ "tekst.txt" };
-    if (input.good()) {
-        size_t line_num = 1;
+int main()
+{
+    std::ifstream input{"tekst.txt"};
+    if (input.good())
+    {
+        size_t line_num = 2;
         std::string pattern, text;
         std::getline(input, pattern);
-        while (!input.eof()) {
+
+        while (!input.eof())
+        {
             std::getline(input, text);
-            std::cout << "\nLinijka " << line_num << ": ";
-            search_karp_rabin(pattern, text, ALPHABET_SIZE);
+            std::cout << "Linijka " << line_num << ": ";
+            kr(pattern, text, ALPHABET_SIZE, 'A');
+            std::cout << '\n';
             ++line_num;
         }
     }
