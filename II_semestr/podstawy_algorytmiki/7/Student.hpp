@@ -35,6 +35,10 @@ struct Student {
         student.points = std::stoi(temp_points);
     }
 
+    void save_to_csv(std::ostream& out) {
+        out << name << ';' << lastname << ';' << points << '\n';
+    }
+
     std::string name;
     std::string lastname;
     unsigned short points;
