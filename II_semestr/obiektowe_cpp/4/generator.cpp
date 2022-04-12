@@ -1,4 +1,5 @@
 #include "RandomGenerator.hpp"
+#include <iostream>
 
 int main() {
     std::cout << "Liczby losowe typu int:\n";
