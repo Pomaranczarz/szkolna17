@@ -7,10 +7,10 @@
 class Neighborhood
 {
 public:
-    Neighborhood(EntityType type = UNKNOWN);
+    Neighborhood(EntityType type = EntityType::Unknown);
     /// Set neighbor of 
     void setNeighbor(Position position, EntityType type);
-    [[nodiscard]] EntityType getNeighborType(Positon position);
+    [[nodiscard]] EntityType getNeighborType(Position position);
     [[nodiscard]] unsigned short getNumberOfNeighborsOfType(EntityType type) const;
     [[nodiscard]] Position getPositionOfRandomNeighborOfType(EntityType type);
     static void changeIndexesFromPosition(Position position, long& row, long& column);

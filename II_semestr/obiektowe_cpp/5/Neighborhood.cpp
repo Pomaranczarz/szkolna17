@@ -6,7 +6,7 @@ Neighborhood::Neighborhood(EntityType type)
         for (auto& element : row)
             element = type;
 
-    neighborhood[1][1] = UNKNOWN;
+    neighborhood[1][1] = EntityType::Unknown;
 }
 
 Position Neighborhood::getRandomPosition() {
@@ -16,16 +16,16 @@ Position Neighborhood::getRandomPosition() {
 
 void Neighborhood::setNeighbor(Position position, EntityType type)
 {
-    if (position != NOWHERE)
+    if (position != Position::Nowhere)
         *innerElement(position) = type;
 }
 
 EntityType Neighborhood::getNeighborType(Position position)
 {
-    if (position != NOWHERE)
+    if (position != Position::Nowhere)
         return *innerElement(position);
     else
-        return UNKNOWN;
+        return EntityType::Unknown;
 }
 
 unsigned short Neighborhood::getNumberOfNeighborsOfType(EntityType type) const
@@ -44,7 +44,7 @@ Position Neighborhood::getPositionOfRandomNeighborOfType(EntityType type)
 {
     unsigned short numberOfNeighbors = getNumberOfNeighborsOfType(type);
     if (numberOfNeighbors == 0)
-        return NOWHERE;
+        return Position::Nowhere;
 
     Position position = getRandomPosition();
 
@@ -56,14 +56,14 @@ Position Neighborhood::getPositionOfRandomNeighborOfType(EntityType type)
 
 void Neighborhood::changeIndexesFromPosition(Position position, long& row, long& column)
 {
-    if (position == PG || position == P || position == PD)
+    if (position == Position::PG || position == Position::P || position == Position::PD)
         ++column;
-    else if (position == LG || position == L || position == LD)
+    else if (position == Position::LG || position == Position::L || position == Position::LD)
         --column;
 
-    if (position == LG || position == G || position == PG)
+    if (position == Position::LG || position == Position::G || position == Position::PG)
         --row;
-    else if (position == LD || position == D || position == PD)
+    else if (position == Position::LD || position == Position::D || position == Position::PD)
         ++row;
 }
 
@@ -89,6 +89,6 @@ EntityType* Neighborhood::innerElement(Position position)
         case Position::D: return &neighborhood[2][1];
         case Position::PD: return &neighborhood[2][2];
         case Position::Nowhere: return nullptr;
-        default: nullptr
+        default: return nullptr;
     }
 }
