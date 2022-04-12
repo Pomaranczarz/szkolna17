@@ -3,30 +3,30 @@
 static const SimulationSettings& settings = SimulationSettings::getInstance();
 
 Alga::Alga()
-    : Organism(SimulationSettings::getInstance().algaMinHealth,
-        SimulationSettings::getInstance().algaMaxHealth,
-        SimulationSettings::getInstance().algaChildCost,
-        SimulationSettings::getInstance().algaMealLimit)
+    : Organism(
+        GEN::randBetween(settings.algaMinHealth, settings.algaMaxHealth),
+        settings.algaMealLimit,
+        settings.algaChildCost)
     , Entity(SimulationSettings::getInstance().algaSign)
 {
 
 }
 
 Fungus::Fungus()
-    : Organism(SimulationSettings::getInstance().fungusMinHealth,
-        SimulationSettings::getInstance().fungusMaxHealth,
-        SimulationSettings::getInstance().fungusChildCost,
-        SimulationSettings::getInstance().fungusMealLimit)
+    : Organism(
+        GEN::randBetween(settings.fungusMinHealth, settings.fungusMaxHealth),
+        settings.fungusMealLimit,
+        settings.fungusChildCost)
     , Entity(SimulationSettings::getInstance().fungusSign)
 {
 
 }
 
 Bacteria::Bacteria()
-    : Organism(SimulationSettings::getInstance().bacteriaMinHealth,
-        SimulationSettings::getInstance().bacteriaMaxHealth,
-        SimulationSettings::getInstance().bacteriaChildCost,
-        SimulationSettings::getInstance().bacteriaMealLimit)
+    : Organism(
+        GEN::randBetween(settings.bacteriaMinHealth, settings.bacteriaMaxHealth),
+        settings.bacteriaMealLimit,
+        settings.bacteriaChildCost)
     , Entity(SimulationSettings::getInstance().bacteriaSign)
 {
 
@@ -34,17 +34,17 @@ Bacteria::Bacteria()
 
 EntityType Alga::getType()
 {
-    return Organism::isAlive() ? EntityType::Alga : EntityType::Dead;
+    return Organism::isAlive() ? EntityType::Alga : EntityType::Corpse;
 }
 
 EntityType Fungus::getType()
 {
-    return Organism::isAlive() ? EntityType::Fungus : EntityType::Dead;
+    return Organism::isAlive() ? EntityType::Fungus : EntityType::Corpse;
 }
 
 EntityType Bacteria::getType()
 {
-    return Organism::isAlive() ? EntityType::Bacteria : EntityType::Dead;
+    return Organism::isAlive() ? EntityType::Bacteria : EntityType::Corpse;
 }
 
 Entity* Alga::getChild()
@@ -94,52 +94,52 @@ void Bacteria::getTrophy(Entity* inhibitant)
 
 }
 
-EntityAction Alga::chooseAction(Neighborhood neighborhood)
+EntityIntent Alga::chooseAction(Neighborhood neighborhood)
 {
-    Organism::simulationStep();
+    simulationStep();
 
-    if (Organism::isAlive() && Organism::canReproduce() && neighborhood.getNumberOfNeighborsOfType(EntityType::Void) > 0)
+    if (isAlive() && canReproduce() && neighborhood.getNumberOfNeighborsOfType(EntityType::Void) > 0)
         return EntityIntent(EntityAction::Reproduce, neighborhood.getPositionOfRandomNeighborOfType(EntityType::Void));
 
-    if (Organism::isAlive() && Organism::canEat())
+    if (isAlive() && isHungry())
         Organism::eat();
 
-    if (!Organism::isAlive() && symbol != settings.corpseSign)
+    if (!isAlive() && symbol != settings.corpseSign)
         symbol = settings.corpseSign;
 
     return EntityIntent();
 }
 
-EntityAction Fungus::chooseAction(Neighborhood neighborhood)
+EntityIntent Fungus::chooseAction(Neighborhood neighborhood)
 {
     Organism::simulationStep();
 
-    if (Organism::isAlive() && Organism::canReproduce() && neighborhood.getNumberOfNeighborsOfType(EntityType::Void) > 0)
+    if (isAlive() && canReproduce() && neighborhood.getNumberOfNeighborsOfType(EntityType::Void) > 0)
         return EntityIntent(EntityAction::Reproduce, neighborhood.getPositionOfRandomNeighborOfType(EntityType::Void));
 
-    if (Organism::isAlive() && Organism::canEat() && neighborhood.getNumberOfNeighborsOfType(EntityType::Corpse) > 0)
+    if (isAlive() && isHungry() && neighborhood.getNumberOfNeighborsOfType(EntityType::Corpse) > 0)
         return EntityIntent(EntityAction::Decompose, neighborhood.getPositionOfRandomNeighborOfType(EntityType::Corpse));
 
-    if (!Organism::isAlive() && symbol != settings.corpseSign)
+    if (!isAlive() && symbol != settings.corpseSign)
         symbol = settings.corpseSign;
 
     return EntityIntent();
 }
 
-EntityAction Bacteria::chooseAction(Neighborhood neighborhood)
+EntityIntent Bacteria::chooseAction(Neighborhood neighborhood)
 {
     Organism::simulationStep();
 
-    if (Organism::isAlive() && Organism::canReproduce() && neighborhood.getNumberOfNeighborsOfType(EntityType::Void) > 0)
+    if (isAlive() && canReproduce() && neighborhood.getNumberOfNeighborsOfType(EntityType::Void) > 0)
         return EntityIntent(EntityAction::Reproduce, neighborhood.getPositionOfRandomNeighborOfType(EntityType::Void));
 
-    if (Organism::isAlive() && Organism::canEat() && neighborhood.getNumberOfNeighborsOfType(EntityType::Alga) > 0)
+    if (isAlive() && isHungry() && neighborhood.getNumberOfNeighborsOfType(EntityType::Alga) > 0)
         return EntityIntent(EntityAction::Hunt, neighborhood.getPositionOfRandomNeighborOfType(EntityType::Alga));
 
-    if (Organism::isAlive() && Organism::canEat() && neighborhood.getNumberOfNeighborsOfType(EntityType::Bacteria) > 0)
+    if (isAlive() && isHungry() && neighborhood.getNumberOfNeighborsOfType(EntityType::Bacteria) > 0)
         return EntityIntent(EntityAction::Hunt, neighborhood.getPositionOfRandomNeighborOfType(EntityType::Bacteria));
 
-    if (!Organism::isAlive() && symbol != settings.corpseSign)
+    if (!isAlive() && symbol != settings.corpseSign)
         symbol = settings.corpseSign;
 
     return EntityIntent();

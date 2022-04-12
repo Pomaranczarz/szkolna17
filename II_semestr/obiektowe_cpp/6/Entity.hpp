@@ -10,11 +10,11 @@ public:
     Entity(char symbol = SimulationSettings::getInstance().unknownSign);
     Entity(const Entity& inhibitant);
 
-    [[nodiscard]] virtual char getSymbol() const final;
+    virtual char getSymbol() const final;
     virtual ~Entity();
-    [[nodiscard]] virtual EntityType getType() = 0;
-    [[nodiscard]] virtual EntityIntent chooseAction(Neighborhood neighborhood) = 0;
-    [[nodiscard]] virtual Entity* getChild() = 0;
+    virtual EntityType getType() = 0;
+    virtual EntityIntent chooseAction(Neighborhood neighborhood) = 0;
+    virtual Entity* getChild() = 0;
     virtual void getTrophy(Entity* inhibitant) = 0;
 
 protected:
