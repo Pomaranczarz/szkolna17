@@ -1,180 +1,66 @@
 #pragma once
 #include <stdexcept>
 
-template <typename T>
+template<typename T>
 class Stack
 {
+private:
+    struct Node
+    {
+        T m_data;
+        Node* m_next;
+
+        Node(const T& data = T{}, Node* next = nullptr)
+            : m_data(data)
+            , m_next(next)
+        {
+        }
+    };
+
 public:
-    Stack();
-    ~Stack();
-    void push(T element);
-    T pop();
-    T top();
-    bool isEmpty();
+    explicit Stack() = default;
 
-    class Node
-    {
-    public:
-        Node(T element, Node* next = nullptr);
-        ~Node();
-        T& getElement();
-        Node* getNext();
-        void setNext(Node* next);
+    bool empty() const noexcept {
+        return m_size == 0;
+    }
 
-    private:
-        T element;
-        Node* next;
-    };
+    void push(const T& value) {
+        Node* node = new Node(value, m_top);
+        m_top = node;
+        ++m_size;
+    }
 
-    Node* getHead();
+    T pop() {
+        if (empty())
+            throw std::out_of_range("Stack is empty");
 
-    class Iterator
-    {
-    public:
-        Iterator(Node* node);
-        ~Iterator();
-        T& operator*();
-        Iterator& operator++();
-        bool operator!=(const Iterator& other);
+        Node* to_delete = m_top;
+        T value = m_top->m_data;
+        m_top = m_top->m_next;
 
-    private:
-        Node* node;
-    };
+        delete to_delete;
+        --m_size;
 
-    Iterator begin();
-    Iterator end();
+        return value;
+    }
+
+    T top() {
+        if (empty())
+            throw std::out_of_range("Stack is empty");
+
+        return m_top->m_data;
+    }
+
+    void clear() {
+        while (!empty())
+            pop();
+    }
+
+    ~Stack() {
+        clear();
+    }
 
 private:
-    Node* head;
+    Node* m_top = nullptr;
+    size_t m_size = 0;
 };
-
-template <typename T>
-Stack<T>::Stack()
-{
-    head = nullptr;
-}
-
-template <typename T>
-Stack<T>::~Stack()
-{
-    Node* current = head;
-    while (current != nullptr)
-    {
-        Node* next = current->getNext();
-        delete current;
-        current = next;
-    }
-}
-
-template <typename T>
-void Stack<T>::push(T element)
-{
-    Node* newNode = new Node(element, head);
-    head = newNode;
-}
-
-template <typename T>
-T Stack<T>::pop()
-{
-    if (head == nullptr)
-        throw std::out_of_range{ "Stack is empty" };
-
-    Node* current = head;
-    head = head->getNext();
-    T element = current->getElement();
-    delete current;
-    return element;
-}
-
-template <typename T>
-T Stack<T>::top()
-{
-    if (head == nullptr)
-        throw std::out_of_range{ "Stack is empty" };
-
-    return head->getElement();
-}
-
-template <typename T>
-bool Stack<T>::isEmpty()
-{
-    return head == nullptr;
-}
-
-template <typename T>
-Stack<T>::Node::Node(T element, Node* next)
-{
-    this->element = element;
-    this->next = next;
-}
-
-template <typename T>
-Stack<T>::Node::~Node()
-{
-}
-
-template <typename T>
-T& Stack<T>::Node::getElement()
-{
-    return element;
-}
-
-template <typename T>
-typename Stack<T>::Node* Stack<T>::Node::getNext()
-{
-    return next;
-}
-
-template <typename T>
-void Stack<T>::Node::setNext(Node* next)
-{
-    this->next = next;
-}
-
-template <typename T>
-typename Stack<T>::Node* Stack<T>::getHead()
-{
-    return head;
-}
-
-template <typename T>
-typename Stack<T>::Iterator Stack<T>::begin()
-{
-    return Iterator(head);
-}
-
-template <typename T>
-typename Stack<T>::Iterator Stack<T>::end()
-{
-    return Iterator(nullptr);
-}
-
-template <typename T>
-Stack<T>::Iterator::Iterator(Node* node)
-{
-    this->node = node;
-}
-
-template <typename T>
-Stack<T>::Iterator::~Iterator()
-{
-}
-
-template <typename T>
-T& Stack<T>::Iterator::operator*()
-{
-    return node->getElement();
-}
-
-template <typename T>
-typename Stack<T>::Iterator& Stack<T>::Iterator::operator++()
-{
-    node = node->getNext();
-    return *this;
-}
-
-template <typename T>
-bool Stack<T>::Iterator::operator!=(const Iterator& other)
-{
-    return node != other.node;
-}
