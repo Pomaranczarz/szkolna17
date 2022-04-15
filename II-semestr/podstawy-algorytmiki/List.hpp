@@ -3,6 +3,7 @@
 #include <utility>
 #include <stdexcept>
 #include <limits>
+#include <sstream>
 
 template<typename T>
 class List
@@ -23,6 +24,7 @@ private:
 public:
     class iterator
     {
+        friend class List<T>;
     public:
         using value_type = T;
         using pointer_type = T*;
@@ -70,6 +72,7 @@ public:
 
     class const_iterator
     {
+        friend class List<T>;
     public:
         using value_type = T;
         using pointer_type = const T*;
@@ -117,6 +120,7 @@ public:
 
     class reverse_iterator
     {
+        friend class List<T>;
     public:
         using value_type = T;
         using pointer_type = T*;
@@ -164,6 +168,7 @@ public:
 
     class const_reverse_iterator
     {
+        friend class List<T>;
     public:
         using value_type = T;
         using pointer_type = const T*;
@@ -171,7 +176,7 @@ public:
 
         const_reverse_iterator() noexcept = default;
         const_reverse_iterator(Node* node) noexcept : node{ node } {}
-        const_reverse_iterator(const reverse_iterator & other) noexcept : node{ other.node } {}
+        const_reverse_iterator(const reverse_iterator& other) noexcept : node{ other.node } {}
 
         const_reverse_iterator& operator++() noexcept {
             node = node->prev;
@@ -533,6 +538,28 @@ public:
 
     const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator{ tail }; }
     const_reverse_iterator crend() const noexcept { return const_reverse_iterator{ nullptr }; }
+
+    [[nodiscard]] std::string pretty_string() const noexcept {
+        std::stringstream ss;
+        ss << "List: ";
+
+        if (empty())
+            ss << "empty";
+        else {
+            ss << "[";
+
+            for (auto it = begin(); it != end(); ++it) {
+                if (it != begin())
+                    ss << ", ";
+
+                ss << *it;
+            }
+
+            ss << "]";
+        }
+
+        return ss.str();
+    }
 
 private:
     Node* head;
