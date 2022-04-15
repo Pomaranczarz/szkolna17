@@ -19,13 +19,8 @@ private:
 public:
     explicit Queue() : m_head{ nullptr }, m_tail{ nullptr }, m_size{ 0 } {}
 
-    bool empty() const noexcept {
-        return m_size == 0;
-    }
-
-    size_t size() const noexcept {
-        return m_size;
-    }
+    bool empty() const noexcept { return m_size == 0; }
+    size_t size() const noexcept { return m_size; }
 
     void push(const T& value) {
         Node* node = new Node{ value };
