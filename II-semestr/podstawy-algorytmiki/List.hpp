@@ -25,12 +25,12 @@ public:
     {
     public:
         using value_type = T;
-        using pointer = T*;
-        using reference = T&;
+        using pointer_type = T*;
+        using reference_type = T&;
 
         iterator() noexcept = default;
-
         iterator(Node* node) noexcept : node{ node } {}
+        iterator(const iterator& other) noexcept : node{ other.node } {}
 
         iterator& operator++() noexcept {
             node = node->next;
@@ -59,21 +59,10 @@ public:
             return temp;
         }
 
-        bool operator==(const iterator& other) const noexcept {
-            return node == other.node;
-        }
-
-        bool operator!=(const iterator& other) const noexcept {
-            return node != other.node;
-        }
-
-        reference operator*() const noexcept {
-            return node->data;
-        }
-
-        pointer operator->() const noexcept {
-            return &node->data;
-        }
+        bool operator==(const iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
 
     private:
         Node* node{ nullptr };
@@ -83,14 +72,12 @@ public:
     {
     public:
         using value_type = T;
-        using pointer = const T*;
-        using reference = const T&;
+        using pointer_type = const T*;
+        using reference_type = const T&;
 
         const_iterator() noexcept = default;
-
-        const_iterator(Node * node) noexcept : node{ node } {}
-
-        const_iterator(const iterator & other) noexcept : node{ other.node } {}
+        const_iterator(Node* node) noexcept : node{ node } {}
+        const_iterator(const iterator& other) noexcept : node{ other.node } {}
 
         const_iterator& operator++() noexcept {
             node = node->next;
@@ -119,21 +106,10 @@ public:
             return temp;
         }
 
-        bool operator==(const const_iterator & other) const noexcept {
-            return node == other.node;
-        }
-
-        bool operator!=(const const_iterator & other) const noexcept {
-            return node != other.node;
-        }
-
-        reference operator*() const noexcept {
-            return node->data;
-        }
-
-        pointer operator->() const noexcept {
-            return &node->data;
-        }
+        bool operator==(const const_iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const const_iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
 
     private:
         Node* node{ nullptr };
@@ -143,12 +119,12 @@ public:
     {
     public:
         using value_type = T;
-        using pointer = T*;
-        using reference = T&;
+        using pointer_type = T*;
+        using reference_type = T&;
 
         reverse_iterator() noexcept = default;
-
         reverse_iterator(Node* node) noexcept : node{ node } {}
+        reverse_iterator(const reverse_iterator& other) noexcept : node{ other.node } {}
 
         reverse_iterator& operator++() noexcept {
             node = node->prev;
@@ -177,21 +153,11 @@ public:
             return temp;
         }
 
-        bool operator==(const reverse_iterator& other) const noexcept {
-            return node == other.node;
-        }
+        bool operator==(const reverse_iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const reverse_iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
 
-        bool operator!=(const reverse_iterator& other) const noexcept {
-            return node != other.node;
-        }
-
-        reference operator*() const noexcept {
-            return node->data;
-        }
-
-        pointer operator->() const noexcept {
-            return &node->data;
-        }
     private:
         Node* node{ nullptr };
     };
@@ -200,13 +166,11 @@ public:
     {
     public:
         using value_type = T;
-        using pointer = const T*;
-        using reference = const T&;
+        using pointer_type = const T*;
+        using reference_type = const T&;
 
         const_reverse_iterator() noexcept = default;
-
-        const_reverse_iterator(Node * node) noexcept : node{ node } {}
-
+        const_reverse_iterator(Node* node) noexcept : node{ node } {}
         const_reverse_iterator(const reverse_iterator & other) noexcept : node{ other.node } {}
 
         const_reverse_iterator& operator++() noexcept {
@@ -236,21 +200,11 @@ public:
             return temp;
         }
 
-        bool operator==(const const_reverse_iterator & other) const noexcept {
-            return node == other.node;
-        }
+        bool operator==(const const_reverse_iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const const_reverse_iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
 
-        bool operator!=(const const_reverse_iterator & other) const noexcept {
-            return node != other.node;
-        }
-
-        reference operator*() const noexcept {
-            return node->data;
-        }
-
-        pointer operator->() const noexcept {
-            return &node->data;
-        }
     private:
         Node* node{ nullptr };
     };

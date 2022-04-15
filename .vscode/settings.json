@@ -62,7 +62,11 @@
         "bitset": "cpp",
         "span": "cpp",
         "regex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "any": "cpp",
+        "list": "cpp",
+        "scoped_allocator": "cpp",
+        "mutex": "cpp"
     },
     "python.formatting.provider": "yapf",
     "C_Cpp.errorSquiggles": "Disabled"
