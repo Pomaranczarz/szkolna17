@@ -3,6 +3,7 @@
 #include <utility>
 #include <stdexcept>
 #include <limits>
+#include <iterator>
 #include <sstream>
 
 template<typename T>
@@ -22,6 +23,7 @@ private:
     };
 
 public:
+#if __cplusplus >= 202002L
     class iterator
     {
         friend class List<T>;
@@ -213,6 +215,201 @@ public:
     private:
         Node* node{ nullptr };
     };
+
+#else
+    class iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+    {
+        friend class List<T>;
+    public:
+        using value_type = T;
+        using pointer_type = T*;
+        using reference_type = T&;
+
+        iterator() noexcept = default;
+        iterator(Node* node) noexcept : node{ node } {}
+        iterator(const iterator& other) noexcept : node{ other.node } {}
+
+        iterator& operator++() noexcept {
+            node = node->next;
+            return *this;
+        }
+
+        iterator operator++(int) noexcept {
+            iterator temp{ node };
+            node = node->next;
+            return temp;
+        }
+
+        iterator operator+(int step) noexcept {
+            iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->next;
+
+            return temp;
+        }
+
+        iterator operator-(int step) noexcept {
+            iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->prev;
+
+            return temp;
+        }
+
+        bool operator==(const iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
+
+    private:
+        Node* node{ nullptr };
+    };
+
+    class const_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+    {
+        friend class List<T>;
+    public:
+        using value_type = T;
+        using pointer_type = const T*;
+        using reference_type = const T&;
+
+        const_iterator() noexcept = default;
+        const_iterator(Node* node) noexcept : node{ node } {}
+        const_iterator(const const_iterator& other) noexcept : node{ other.node } {}
+
+        const_iterator& operator++() noexcept {
+            node = node->next;
+            return *this;
+        }
+
+        const_iterator operator++(int) noexcept {
+            const_iterator temp{ node };
+            node = node->next;
+            return temp;
+        }
+
+        const_iterator operator+(int step) noexcept {
+            const_iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->next;
+
+            return temp;
+        }
+
+        const_iterator operator-(int step) noexcept {
+            const_iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->prev;
+
+            return temp;
+        }
+
+        bool operator==(const const_iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const const_iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
+
+    private:
+        Node* node{ nullptr };
+    };
+
+    class reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+    {
+        friend class List<T>;
+    public:
+        using value_type = T;
+        using pointer_type = T*;
+        using reference_type = T&;
+
+        reverse_iterator() noexcept = default;
+        reverse_iterator(Node* node) noexcept : node{ node } {}
+        reverse_iterator(const reverse_iterator& other) noexcept : node{ other.node } {}
+
+        reverse_iterator& operator++() noexcept {
+            node = node->prev;
+            return *this;
+        }
+
+        reverse_iterator operator++(int) noexcept {
+            reverse_iterator temp{ node };
+            node = node->prev;
+            return temp;
+        }
+
+        reverse_iterator operator+(int step) noexcept {
+            reverse_iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->prev;
+
+            return temp;
+        }
+
+        reverse_iterator operator-(int step) noexcept {
+            reverse_iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->next;
+
+            return temp;
+        }
+
+        bool operator==(const reverse_iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const reverse_iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
+
+    private:
+        Node* node{ nullptr };
+    };
+
+    class const_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+    {
+        friend class List<T>;
+    public:
+        using value_type = T;
+        using pointer_type = const T*;
+        using reference_type = const T&;
+
+        const_reverse_iterator() noexcept = default;
+        const_reverse_iterator(Node* node) noexcept : node{ node } {}
+        const_reverse_iterator(const const_reverse_iterator& other) noexcept : node{ other.node } {}
+
+        const_reverse_iterator& operator++() noexcept {
+            node = node->prev;
+            return *this;
+        }
+
+        const_reverse_iterator operator++(int) noexcept {
+            const_reverse_iterator temp{ node };
+            node = node->prev;
+            return temp;
+        }
+
+        const_reverse_iterator operator+(int step) noexcept {
+            const_reverse_iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->prev;
+
+            return temp;
+        }
+
+        const_reverse_iterator operator-(int step) noexcept {
+            const_reverse_iterator temp{ node };
+            for (int i = 0; i < step; ++i)
+                temp.node = temp.node->next;
+
+            return temp;
+        }
+
+        bool operator==(const const_reverse_iterator& other) const noexcept { return node == other.node; }
+        bool operator!=(const const_reverse_iterator& other) const noexcept { return node != other.node; }
+        reference_type operator*() const noexcept { return node->data; }
+        pointer_type operator->() const noexcept { return &node->data; }
+
+    private:
+        Node* node{ nullptr };
+    };
+
+#endif // __cplusplus >= 202002L
 
     using value_type = T;
     using ref_type = T&;
