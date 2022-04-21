@@ -1,5 +1,9 @@
 #pragma once
 
+#if __cplusplus < 201103L
+#error "This file requires C++11 support."
+#else
+
 #include <stdexcept>
 #include <iostream>
 
@@ -261,3 +265,5 @@ private:
     size_t m_size;
 
 };
+
+#endif // __cplusplus < 201103L

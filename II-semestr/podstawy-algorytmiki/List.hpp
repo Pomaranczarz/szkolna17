@@ -1,5 +1,9 @@
 #pragma once 
 
+#if __cplusplus < 201103L
+#error "This file requires C++11 support."
+#else
+
 #include <utility>
 #include <stdexcept>
 #include <limits>
@@ -579,3 +583,5 @@ private:
     Node* tail;
     size_t m_size;
 };
+
+#endif // __cplusplus < 201103L
