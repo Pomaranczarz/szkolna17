@@ -44,7 +44,7 @@ public:
         return value;
     }
 
-    T top() {
+    T& top() {
         if (empty())
             throw std::out_of_range("Stack is empty");
 
