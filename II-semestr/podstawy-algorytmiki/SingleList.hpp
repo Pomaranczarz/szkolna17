@@ -23,7 +23,7 @@ private:
     };
 
     class iterator
-#if __cplusplus >= 202002L
+#if __cplusplus < 201703L
         : public std::iterator<std::forward_iterator_tag, T>
 #endif
     {
@@ -64,7 +64,7 @@ private:
     };
 
     class const_iterator
-#if __cplusplus >= 202002L
+#if __cplusplus < 201703L
         : public std::iterator<std::forward_iterator_tag, T>
 #endif
     {

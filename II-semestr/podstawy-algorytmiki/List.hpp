@@ -28,7 +28,7 @@ private:
 
 public:
     class iterator
-#if __cplusplus >= 202002L
+#if __cplusplus < 201703L
         : public std::iterator<std::bidirectional_iterator_tag, T>
 #endif
     {
@@ -79,7 +79,7 @@ public:
     };
 
     class const_iterator
-#if __cplusplus >= 202002L
+#if __cplusplus < 201703L
         : public std::iterator<std::bidirectional_iterator_tag, T>
 #endif
     {
@@ -130,7 +130,7 @@ public:
     };
 
     class reverse_iterator
-#if __cplusplus >= 202002L
+#if __cplusplus < 201703L
         : public std::iterator<std::bidirectional_iterator_tag, T>
 #endif
     {
@@ -181,7 +181,7 @@ public:
     };
 
     class const_reverse_iterator
-#if __cplusplus >= 202002L
+#if __cplusplus < 201703L
         : public std::iterator<std::bidirectional_iterator_tag, T>
 #endif
     {
@@ -584,4 +584,4 @@ private:
     size_t m_size;
 };
 
-#endif // __cplusplus < 201103L
+#endif // __cplusplus < 201703L
