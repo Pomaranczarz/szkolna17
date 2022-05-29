@@ -4,19 +4,22 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-char napisy[4][80] = {
-    "Ha! Ha! Ha! To tylko sygnal powierzchowny\n",
-    "Tylko proces %d smieje sie sygnalowi %d prosto w twarz!\n",
-    "Auc - to bolalo!\n",
-    "Dobrze! Dobrze! Juz koncze\n"
-};
+typedef void(*sighandler_t)(int);
 
-int nr_napisu = 0;
-void(*default_sigint_handler)(int) = NULL;
-void(*default_sigquit_handler)(int) = NULL;
-void(*default_sigalarm_handler)(int) = NULL;
+sighandler_t default_sigint_handler = NULL;
+sighandler_t default_sigquit_handler = NULL;
+sighandler_t default_sigalarm_handler = NULL;
 
 void obsluga_sig_int(int sig) {
+    static char napisy[4][80] = {
+        "Ha! Ha! Ha! To tylko sygnal powierzchowny\n",
+        "Tylko proces %d smieje sie sygnalowi %d prosto w twarz!\n",
+        "Auc - to bolalo!\n",
+        "Dobrze! Dobrze! Juz koncze\n"
+    };
+
+    static int nr_napisu = 0;
+
     printf(napisy[nr_napisu], getpid(), sig);
 
     if (nr_napisu == 3)
