@@ -67,7 +67,8 @@
         "list": "cpp",
         "scoped_allocator": "cpp",
         "mutex": "cpp",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "stat.h": "c"
     },
     "python.formatting.provider": "yapf",
     "C_Cpp.errorSquiggles": "Disabled"
