@@ -30,6 +30,8 @@ int main(int argc, char** argv) {
             snprintf(buffer, BUF_SIZE, "Serwer: wysylam linie nr %d\n", i);
             write(pipe_fd[1], buffer, strlen(buffer));
         }
+
+        close(pipe_fd[1]);
         exit(EXIT_SUCCESS);
     }
     else {
@@ -40,6 +42,7 @@ int main(int argc, char** argv) {
             bytes_read = read(pipe_fd[0], buffer, BUF_SIZE);
         }
 
+        cloase(pipe_fd[0]);
         exit(EXIT_SUCCESS);
     }
 }
