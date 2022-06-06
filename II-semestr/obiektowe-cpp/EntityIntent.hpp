@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../4/Settings.hpp"
+#include "Settings.hpp"
 
 class EntityIntent
 {

@@ -3,7 +3,8 @@
 std::random_device RandomGenerator::rd;
 
 /// Get random value between min and max.
-unsigned short RandomGenerator::randBetween(unsigned short min, unsigned short max) {
+unsigned short RandomGenerator::randBetween(unsigned short min, unsigned short max)
+{
     if (min > max)
         std::swap(min, max);
 
@@ -12,7 +13,8 @@ unsigned short RandomGenerator::randBetween(unsigned short min, unsigned short m
 }
 
 /// Get random value between min and max.
-long RandomGenerator::randBetween(long min, long max) {
+long RandomGenerator::randBetween(long min, long max)
+{
     if (min > max)
         std::swap(min, max);
 
@@ -21,21 +23,25 @@ long RandomGenerator::randBetween(long min, long max) {
 }
 
 /// Get random value between 0 and max.
-int RandomGenerator::randFromZeroTo(int max) {
+int RandomGenerator::randFromZeroTo(int max)
+{
     std::uniform_int_distribution<int> dist(0, max);
     return dist(rd);
 }
 
-Index2DVec RandomGenerator::getRandomIndexes(unsigned rows, unsigned cols) {
+Index2DVec RandomGenerator::getRandomIndexes(unsigned rows, unsigned cols)
+{
     Index2DVec indexes;
     indexes.reserve(rows * cols);
 
-    for (unsigned i = 0; i < rows; ++i) {
-        for (unsigned j = 0; j < cols; ++j) {
+    for (unsigned i = 0; i < rows; ++i)
+    {
+        for (unsigned j = 0; j < cols; ++j)
+        {
             indexes.emplace_back(i, j);
         }
     }
 
-    std::shuffle(indexes.begin(), indexes.end(), GEN::randFromZeroTo);
+    std::shuffle(indexes.begin(), indexes.end(), rd);
     return indexes;
 }

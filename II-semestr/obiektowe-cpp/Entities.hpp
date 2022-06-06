@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../3/Organism.hpp"
-#include "../6/Entity.hpp"
+#include "Organism.hpp"
+#include "Entity.hpp"
 
 class Alga : public Organism, public Entity
 {

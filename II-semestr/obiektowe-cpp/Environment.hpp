@@ -1,9 +1,12 @@
 #pragma once
 
-#include "../4/RandomGenerator.hpp"
-#include "../4/Settings.hpp"
-#include "../7/Niche.hpp"
+#include "RandomGenerator.hpp"
+#include "Settings.hpp"
+#include "Niche.hpp"
+#include "Entities.hpp"
 #include <string>
+#include <fstream>
+#include <sstream>
 
 class Environment
 {
@@ -12,13 +15,13 @@ public:
     const unsigned long nicheCount;
 
 private:
-    Niche** niche;
+    Niche **niche;
 
 public:
     Environment(unsigned rows, unsigned cols);
     ~Environment();
 
-    void allocate(Entity* entity, unsigned row, unsigned col);
+    void allocate(Entity *entity, unsigned row, unsigned col);
     unsigned long count(EntityType type) const;
     bool dead();
 
@@ -28,6 +31,12 @@ public:
     void performJump(unsigned row, unsigned col);
     void performAction(unsigned row, unsigned col);
     void simulationStep();
+    void operator++(int) { simulationStep(); }
+    bool operator!() { return !dead(); }
 
     std::string toString() const;
+
+    static Environment readFromFile(const std::string &filename);
 };
+
+std::ostream &operator<<(std::ostream &out, const Environment &env);

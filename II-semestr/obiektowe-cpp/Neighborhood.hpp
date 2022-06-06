@@ -1,8 +1,8 @@
 #pragma once
 
 #include <array>
-#include "../4/RandomGenerator.hpp"
-#include "../4/Settings.hpp"
+#include "RandomGenerator.hpp"
+#include "Settings.hpp"
 
 class Neighborhood
 {

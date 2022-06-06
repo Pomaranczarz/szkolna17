@@ -1,0 +1,35 @@
+#include <iostream>
+#include "Environment.hpp"
+#include "Niche.hpp"
+#include "Entities.hpp"
+#include "Neighborhood.hpp"
+#include <fstream>
+
+int main()
+{
+    Environment ecosystem = Environment::readFromFile("start.txt");
+
+    std::ofstream out{"symulacja.txt"};
+    if (!out.good())
+        return 1;
+
+    std::string simulationStatus;
+
+    unsigned long i = 0;
+
+    do
+    {
+        system("clear");
+        std::cout << "Krok symulacji: " << i << "\n";
+        out << "Krok symulacji: " << i << '\n';
+        simulationStatus = ecosystem.toString();
+
+        std::cout << '\n'
+                  << simulationStatus << '\n';
+        out << simulationStatus << '\n';
+
+        std::cin.ignore(1);
+        ecosystem++;
+        ++i;
+    } while (i < 200 && !ecosystem);
+}

@@ -1,11 +1,14 @@
 #pragma once
 
-#include "../5/Neighborhood.hpp"
-#include "../6/Entity.hpp"
+#include "Neighborhood.hpp"
+#include "Entity.hpp"
+
+class Environment;
 
 class Niche
 {
 public:
+    friend class Environment;
     Niche();
     Niche(Niche &another);
     Niche &operator=(Niche &another);
