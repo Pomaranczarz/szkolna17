@@ -8,7 +8,6 @@ class Neighborhood
 {
 public:
     Neighborhood(EntityType type = EntityType::Unknown);
-    /// Set neighbor of 
     void setNeighbor(Position position, EntityType type);
     EntityType getNeighborType(Position position);
     unsigned short getNumberOfNeighborsOfType(EntityType type) const;

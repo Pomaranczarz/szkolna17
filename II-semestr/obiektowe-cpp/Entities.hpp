@@ -1,34 +1,37 @@
 #pragma once
 
-#include "Organism.hpp"
 #include "Entity.hpp"
+#include "Organism.hpp"
 
-class Alga : public Organism, public Entity
+class Alga : public Organism
+    , public Entity
 {
 public:
-    Alga();
-    virtual EntityType getType() final;
-    virtual EntityIntent chooseAction(Neighborhood neighborhood);
-    virtual Entity* getChild();
-    virtual void getTrophy(Entity* inhibitant);
+	Alga();
+	virtual EntityType getType() final;
+	virtual EntityIntent chooseAction(Neighborhood neighborhood);
+	virtual Entity* getChild();
+	virtual void getTrophy(Entity* inhibitant);
 };
 
-class Fungus : public Organism, public Entity
+class Fungus : public Organism
+    , public Entity
 {
 public:
-    Fungus();
-    virtual EntityType getType() final;
-    virtual EntityIntent chooseAction(Neighborhood neighborhood);
-    virtual Entity* getChild();
-    virtual void getTrophy(Entity* inhibitant);
+	Fungus();
+	virtual EntityType getType() final;
+	virtual EntityIntent chooseAction(Neighborhood neighborhood);
+	virtual Entity* getChild();
+	virtual void getTrophy(Entity* inhibitant);
 };
 
-class Bacteria : public Organism, public Entity
+class Bacteria : public Organism
+    , public Entity
 {
 public:
-    Bacteria();
-    virtual EntityType getType() final;
-    virtual EntityIntent chooseAction(Neighborhood neighborhood);
-    virtual Entity* getChild();
-    virtual void getTrophy(Entity* inhibitant);
+	Bacteria();
+	virtual EntityType getType() final;
+	virtual EntityIntent chooseAction(Neighborhood neighborhood);
+	virtual Entity* getChild();
+	virtual void getTrophy(Entity* inhibitant);
 };
