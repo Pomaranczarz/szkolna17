@@ -2,11 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(
-                CaesarCipher.decrypt(
-                    CaesarCipher.encrypt("Ala ma kota", 1), 1
-                )
-        );
+        System.out.println(getLengthOfLongestSequenceOfZeroesSurroundedByOnes("0110000000001000001"));
     }
 
     public static int count(char c, String s) {
@@ -40,5 +36,36 @@ public class Main {
         String reversed = new StringBuilder(s).reverse().toString();
 
         return s.equals(reversed);
+    }
+
+    public static String decToBin(int number) {
+        StringBuilder stringBuilder = new StringBuilder();
+        while (number > 0) {
+            stringBuilder.append(number % 2);
+            number /= 2;
+        }
+
+        return stringBuilder.reverse().toString();
+    }
+
+    public static int getLengthOfLongestSequenceOfZeroesSurroundedByOnes(String binaryNumber) {
+        int zeroesCount = 0;
+        int maxZeroesLen = 0;
+
+        binaryNumber = binaryNumber.substring(binaryNumber.indexOf('1')); // remove leading zeroes
+
+        for (int i = 0; i < binaryNumber.length(); i++) {
+            if (binaryNumber.charAt(i) == '1') {
+                if (zeroesCount > maxZeroesLen)
+                    maxZeroesLen = zeroesCount;
+
+                zeroesCount = 0;
+
+            } else if (binaryNumber.charAt(i) == '0') {
+                zeroesCount++;
+            }
+        }
+
+        return maxZeroesLen;
     }
 }
