@@ -1,6 +1,6 @@
 package Zad5_2;
 
-public interface Podstawowy {
+public interface Base {
     public void eat();
     public void drink();
     public void sleep();

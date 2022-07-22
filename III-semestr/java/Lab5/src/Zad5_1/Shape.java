@@ -1,3 +1,5 @@
+package Zad5_1;
+
 public class Shape {
     protected int area;
 

@@ -1,3 +1,5 @@
+package Zad5_1;
+
 public class Color {
     private final int r;
     private final int g;

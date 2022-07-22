@@ -1,3 +1,5 @@
+package Zad5_1;
+
 public class Rectangle extends Polygon {
     public Rectangle(int area, int perimeter, Color color) {
         super(area, perimeter, color, 4, 4, 360);

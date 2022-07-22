@@ -1,3 +1,5 @@
+package Zad5_1;
+
 public class Triangle extends Polygon {
     public Triangle(int area, int perimeter, Color color) {
         super(area, perimeter, color, 3, 3, 180);

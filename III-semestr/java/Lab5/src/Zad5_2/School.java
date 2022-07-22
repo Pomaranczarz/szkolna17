@@ -1,6 +1,6 @@
 package Zad5_2;
 
-public interface Szkola {
+public interface School {
     public void study();
     public void doHomework();
 }

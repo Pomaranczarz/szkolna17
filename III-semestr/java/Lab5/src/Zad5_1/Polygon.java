@@ -1,3 +1,5 @@
+package Zad5_1;
+
 public class Polygon extends Shape {
     private int vertexCount;
     private int sideCount;

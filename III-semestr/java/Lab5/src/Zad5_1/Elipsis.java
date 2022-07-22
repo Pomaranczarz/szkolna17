@@ -1,3 +1,5 @@
+package Zad5_1;
+
 public class Elipsis extends Shape {
     private float b;
     private float a;
